@@ -1,4 +1,28 @@
-const calories = `5800
+const caloriesPerElf = [];
+let elfCalories = 0;
+
+const lines = calories().split('\n');
+for (const line of lines) {
+  if (line === '') {
+    caloriesPerElf.push(elfCalories);
+    elfCalories = 0;
+  } else {
+    elfCalories += parseInt(line);
+  }
+}
+
+const puzzle1Solution = Math.max(...caloriesPerElf);
+console.log(`Elf carrying most food carries ${puzzle1Solution} calories.`);
+
+const puzzle2Solution = caloriesPerElf
+  .sort((a, b) => b - a)
+  .slice(0, 3)
+  .reduce((previous, current) => previous + current);
+console.log(`The three elves carrying most food carry ${puzzle2Solution} calories.`);
+
+// https://stackoverflow.com/a/46747018
+function calories() {
+  return `5800
 2273
 1315
 5801
@@ -2249,25 +2273,4 @@ const calories = `5800
 5664
 2775
 `;
-
-const caloriesPerElf = [];
-let elfCalories = 0;
-
-const lines = calories.split('\n');
-for (const line of lines) {
-  if (line === '') {
-    caloriesPerElf.push(elfCalories);
-    elfCalories = 0;
-  } else {
-    elfCalories += parseInt(line);
-  }
 }
-
-const puzzle1Solution = Math.max(...caloriesPerElf);
-console.log(`Elf carrying most food carries ${puzzle1Solution} calories.`);
-
-const puzzle2Solution = caloriesPerElf
-  .sort((a, b) => b - a)
-  .slice(0, 3)
-  .reduce((previous, current) => previous + current);
-console.log(`The three elves carrying most food carry ${puzzle2Solution} calories.`);
