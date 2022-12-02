@@ -1,7 +1,7 @@
 ﻿namespace AdventOfCode2022;
 internal class Day02Puzzles1And2
 {
-    private const int LoginsScore = 0;
+    private const int LosingScore = 0;
     private const int DrawingScore = 3;
     private const int WinningScore = 6;
 
@@ -28,7 +28,7 @@ internal class Day02Puzzles1And2
 
     private static readonly Dictionary<string, int> MySecondGame = new()
     {
-        { "X", LoginsScore },
+        { "X", LosingScore },
         { "Y", DrawingScore },
         { "Z", WinningScore }
     };
@@ -46,8 +46,10 @@ internal class Day02Puzzles1And2
 
             var elfChoosing = ElfGame[elfKey];
             var myChoosing = MyGame[myKey];
-            puzzle1Solution += GetRoundScoringForPuzzle1(elfChoosing, myChoosing);
-            puzzle2Solution += GetRoundScoringForPuzzle2(elfChoosing, myKey);
+            puzzle1Solution += (int)myChoosing +
+                               GetRoundScoringForPuzzle1(elfChoosing, myChoosing);
+            puzzle2Solution += MySecondGame[myKey] +
+                               GetRoundScoringForPuzzle2(elfChoosing, myKey);
         }
 
         // 10624 
@@ -58,46 +60,35 @@ internal class Day02Puzzles1And2
 
     private static int GetRoundScoringForPuzzle1(RockPaperScissors elfChoosing, RockPaperScissors myChoosing)
     {
-        if (elfChoosing == myChoosing)
-        {
-            return DrawingScore + (int)myChoosing;
-        }
-
-        if (DoesPlayerOneWinsRound(elfChoosing, myChoosing))
-        {
-            return LoginsScore + (int)myChoosing;
-        }
-
-        if (DoesPlayerOneWinsRound(myChoosing, elfChoosing))
-        {
-            return WinningScore + (int)myChoosing;
-        }
-
-        throw new Exception($"Couldn't get round score for elf choosing {elfChoosing} and me choosing {myChoosing}");
+        return elfChoosing == myChoosing
+            ? DrawingScore
+            : MyRoundScore(elfChoosing, myChoosing);
     }
 
     private static int GetRoundScoringForPuzzle2(RockPaperScissors elfChoosing, string myKey)
     {
         return myKey switch
         {
-            "Y" => MySecondGame[myKey] + (int)elfChoosing,
-            "X" => MySecondGame[myKey] + (int)ChoseToLoseSecondRound(elfChoosing),
-            "Z" => MySecondGame[myKey] + (int)ChoseToWinSecondRound(elfChoosing),
+            "Y" => (int)elfChoosing,
+            "X" => (int)ChoseToLoseSecondRound(elfChoosing),
+            "Z" => (int)ChoseToWinSecondRound(elfChoosing),
             _ => throw new Exception(
                 $"Couldn't get round score for elf choosing {elfChoosing} and me choosing '{myKey}'")
         };
     }
 
-    private static bool DoesPlayerOneWinsRound(RockPaperScissors player1, RockPaperScissors player2)
+    private static int MyRoundScore(RockPaperScissors elfChoosing, RockPaperScissors myChoosing)
     {
-        // player1 has chosen a bigger value according to our enum
-        var result = (int)player1 > (int)player2;
-        // Or player1 has chosen rock, which is a smaller value but player2 has chosen scissors
-        result = result || player1 == RockPaperScissors.Rock && player2 == RockPaperScissors.Scissors;
-        // And obviously not if player1 has chosen scissors and player2 has chosen rock
-        result = result && !(player1 == RockPaperScissors.Scissors && player2 == RockPaperScissors.Rock);
-        return result;
+        // Elf has chosen a bigger value according to our enum
+        var elfWins = (int)elfChoosing > (int)myChoosing;
+        // Or Elf has chosen rock, which is a smaller value but I have chosen scissors
+        elfWins = elfWins || elfChoosing == RockPaperScissors.Rock && myChoosing == RockPaperScissors.Scissors;
+        // And obviously I win if Elf has chosen scissors and I have chosen rock
+        elfWins = elfWins && !(elfChoosing == RockPaperScissors.Scissors && myChoosing == RockPaperScissors.Rock);
+        return elfWins ? LosingScore : WinningScore;
     }
+
+
     private static RockPaperScissors ChoseToWinSecondRound(RockPaperScissors elfChoosing)
     {
         return elfChoosing switch
