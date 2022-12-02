@@ -1,0 +1,9 @@
+{
+  "type": "module",
+  "name": "advent-of-code-2022-js",
+  "version": "1.0.0",
+  "description": "Solving the advent of code 2002 using JS",
+  "main": "index.js",
+  "author": "mancku",
+  "license": "ISC"
+}
