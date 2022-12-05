@@ -1,5 +1,3 @@
-const lowerCaseAsArray = "abcdefghijklmnopqrstuvwxyz".split("");
-
 export function solvePuzzle() {
   const lines = assignments().split('\n');
 
@@ -28,9 +26,9 @@ export function solvePuzzle() {
 
   }
 
-  // 7785
+  // 462
   console.log(`Assignments overlap ${puzzle1Solution} times.`);
-  // 2633
+  // 835
   console.log(`Ranges overlap in ${puzzle2Solution} pairs.`);
 };
 
@@ -40,24 +38,6 @@ export function solvePuzzle() {
  */
 function getElfAssignment(assignment, assignmentIndex) {
   return assignment[assignmentIndex].split("-").map(x => parseInt(x));
-}
-
-
-
-/**
- * @param {string} item
- */
-function getItemPriority(item) {
-  const index = lowerCaseAsArray.indexOf(item);
-  let result = 0;
-  if (index < 0) {
-    result += 26 + lowerCaseAsArray.indexOf(item.toLowerCase());
-  } else {
-    result += index;
-  }
-
-  // Index is 0-based, so we add 1, because the priority counts from 1
-  return result + 1;
 }
 
 // https://stackoverflow.com/a/46747018
