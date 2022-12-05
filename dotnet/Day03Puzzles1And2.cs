@@ -39,9 +39,7 @@ internal class Day03Puzzles1And2
       }
     }
 
-    // 10624 
     Console.WriteLine($"My sum of priorities is {puzzle1Solution}.");
-    // 14060
     Console.WriteLine($"The sum of badges priorities is {puzzle2Solution}.");
   }
 
