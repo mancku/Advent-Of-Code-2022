@@ -20,21 +20,21 @@ internal class Day03Puzzles1And2
       foreach (var item in duplicates)
       {
         puzzle1Solution += GetItemPriority(item);
+      }
 
-        if ((i + 1) % 3 == 0)
+      if ((i + 1) % 3 == 0)
+      {
+        var badge = ruckSack.ToList()
+    .Intersect(ruckSacks[i - 1].ToList())
+    .Intersect(ruckSacks[i - 2].ToList());
+
+        if (badge.Any())
         {
-          var badge = ruckSack.ToList()
-      .Intersect(ruckSacks[i - 1].ToList())
-      .Intersect(ruckSacks[i - 2].ToList());
-
-          if (badge.Any())
-          {
-            puzzle2Solution += GetItemPriority(badge.First());
-          }
-          else
-          {
-            throw new Exception($"There was no badge for {ruckSack}");
-          }
+          puzzle2Solution += GetItemPriority(badge.First());
+        }
+        else
+        {
+          throw new Exception($"There was no badge for {ruckSack}");
         }
       }
     }
