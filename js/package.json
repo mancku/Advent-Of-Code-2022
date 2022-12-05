@@ -5,5 +5,8 @@
   "description": "Solving the advent of code 2002 using JS",
   "main": "index.js",
   "author": "mancku",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
 }
